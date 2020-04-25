@@ -1,0 +1,3 @@
+- In order to run the react app run "npm start" in console
+- Added screenshots of running command and output in the web browser
+- Uses Javascript to get json elements and display them on leaderboard of tic-tac-toe app
