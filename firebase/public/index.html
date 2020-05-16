@@ -10,7 +10,7 @@
     <!-- include only the Firebase features as you need -->
     <script defer src="/__/firebase/7.14.3/firebase-auth.js"></script>
     <!-- initialize the SDK after all desired features are loaded -->
-	<script src="/__/firebase/7.14.3/firebase-analytics.js"></script>
+	<!-- <script src="/__/firebase/7.14.3/firebase-analytics.js"></script> -->
 
     <script defer src="/__/firebase/init.js"></script>
 
@@ -30,16 +30,27 @@
     </style>
   </head>
   <body>
-    <div id="message">
-      <h2>Welcome Bobby</h2>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    <div id="a_msg">
+      loading...
+    </div>
+    <div id="a_logging_in" style="display: none">
+      Email: <input id="a_email" type="text" value="test@gmail.com"/>
+      <input id="a_send_link_btn" type="submit" value="Send Login Link"/>
+    </div>
+    <div id="a_logged_in" style="display: none">
+      <input id="a_logout_btn" type="submit" value="Logout"/>
+      Secret Message!!!
     </div>
     <p id="load">Firebase SDK Loading&hellip;</p>
 
     <script>
       document.addEventListener('DOMContentLoaded', f);
-      
+       
       function f() {
+        a_send_link_btn.addEventListener('click', login);
+        a_logout_btn.addEventListener('click', logout);
+        a_msg.innerHTML = "loaded";
+        a_logging_in.style.display = "block";
 
         try {
           let app = firebase.app();
@@ -50,6 +61,20 @@
           document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
         }
       };
+      function login()
+      {
+        const email = a_email.value;
+        a_msg.innerHTML = "logged in";
+        a_logging_in.style.display = "none";
+        a_logged_in.style.display = "block";
+      }
+
+      function logout()
+      {
+        a_msg.innerHTML = "logged out";
+        a_logging_in.style.display = "block";
+        a_logged_in.style.display = "none";
+      }
 
     </script>
   </body>
