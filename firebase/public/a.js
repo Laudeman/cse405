@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', f);
+
 
 function sendEmailLoginLink()
 {
@@ -6,35 +6,88 @@ function sendEmailLoginLink()
   var actionCodeSettings = {
     // URL you want to redirect back to. The domain (www.example.com) for this
     // URL must be whitelisted in the Firebase Console.
-    url: 'https://www.example.com/finishSignUp?cartId=1234',
-    // This must be true.
-    handleCodeInApp: true,
-    iOS: {
-      bundleId: 'com.example.ios'
-    },
-    android: {
-      packageName: 'com.example.android',
-      installApp: true,
-      minimumVersion: '12'
-    },
-    dynamicLinkDomain: 'example.page.link'
+    url: window.location.href,
+    handleCodeInApp: true
   };
 
   firebase.auth().sendSignInLinkToEmail(a_email, actionCodeSettings)
   .then(function() {
-    window.localStorage.setItem('emailForSignIn', email);
+    a_msg.innerText = "Login link sent to email."
+    localStorage.setItem("email", a_email);
   })
   .catch(function(error)
   {
+    console.log(error);
 
   });
 }
 
-function f() {
-  a_send_link_btn.addEventListener('click', sendEmailLoginLink);
+function logout()
+{
+  firebase.auth().signOut()
+  .then(function() {
+    a_msg.innerHTML = "logged out";
+    a_send_link_btn.disable = false;
+    a_logging_in.style.display = "block";
+    a_logged_in.style.display = "none";
+  })
+  .catch(function(error) {
+    console.log(error);
+  })
+}
+
+function loginPageLoad()
+{
+  let email = localStorage.getItem("email");
+  if (!email) {
+    email = window.prompt("Please provide your email for confirmation");
+  }
+
+  firebase.auth().signInWithEmailLink(email, location.href)
+  .then(function(result) {
+    window.localStorage.removeItem("email");
+    const user = result.user;
+  })
+  .catch(function(error) {
+    console.log(error);
+  })
+
+  a_msg.innerHTML = "logged in";
+  a_logging_in.style.display = "none";
+  a_logged_in.style.display = "block";
   a_logout_btn.addEventListener('click', logout);
-  a_msg.innerHTML = "loaded";
+}
+
+function loggedOutPageLoad() {
   a_logging_in.style.display = "block";
+  a_send_link_btn.addEventListener('click', sendEmailLoginLink);
+}
+
+function loggedInPageLoad()
+{
+  a_msg.innerHTML = "logged in";
+  a_logged_in.style.display = "block";
+  a_logout_btn.addEventListener('click', logout);
+}
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', f);
+function f() {
+  a_msg.innerHTML = "loaded";
+  const auth = firebase.auth();
+  if (auth.isSignInWithEmailLink(location.href)) {
+    loginPageLoad();
+  }
+  else if (auth.currentUser === null) {
+    loggedOutPageLoad();
+  }
+  else
+  {
+    loggedInPageLoad();
+  }
 
   try {
     let app = firebase.app();
@@ -45,18 +98,3 @@ function f() {
     document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
   }
 };
-function login()
-{
-  const email = a_email.value;
-  a_msg.innerHTML = "logged in";
-  a_logging_in.style.display = "none";
-  a_logged_in.style.display = "block";
-}
-
-function logout()
-{
-  a_msg.innerHTML = "logged out";
-  a_logging_in.style.display = "block";
-  a_logged_in.style.display = "none";
-}
-
