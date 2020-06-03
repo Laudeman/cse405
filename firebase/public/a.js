@@ -2,18 +2,19 @@
 
 function sendEmailLoginLink()
 {
-
+  a_send_link_btn.disable = true;
+  const email = a_email.value;
   var actionCodeSettings = {
     // URL you want to redirect back to. The domain (www.example.com) for this
     // URL must be whitelisted in the Firebase Console.
-    url: window.location.href,
+    url: location.href,
     handleCodeInApp: true
   };
 
-  firebase.auth().sendSignInLinkToEmail(a_email, actionCodeSettings)
+  firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
   .then(function() {
     a_msg.innerText = "Login link sent to email."
-    localStorage.setItem("email", a_email);
+    localStorage.setItem("email", email);
   })
   .catch(function(error)
   {
@@ -45,8 +46,7 @@ function loginPageLoad()
 
   firebase.auth().signInWithEmailLink(email, location.href)
   .then(function(result) {
-    window.localStorage.removeItem("email");
-    const user = result.user;
+    localStorage.removeItem("email");
   })
   .catch(function(error) {
     console.log(error);
@@ -59,6 +59,7 @@ function loginPageLoad()
 }
 
 function loggedOutPageLoad() {
+  a_msg.innerHTML = "logged out";
   a_logging_in.style.display = "block";
   a_send_link_btn.addEventListener('click', sendEmailLoginLink);
 }
