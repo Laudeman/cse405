@@ -11,11 +11,19 @@
         "source": "**",
         "destination": "/index.html"
       }
-    ]
+    ] 
   },
+
+  "firestore": {
+    "rules": "firestore.rules"
+  },	
+
   "emulators": {
     "hosting": {
       "port": 5000
+    },
+    "firestore": {
+      "port": 8080
     }
   }
 }

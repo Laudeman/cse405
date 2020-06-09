@@ -1,5 +1,6 @@
 {
   "projects": {
-    "cse": "cse-405"
+    "cse": "cse-405",
+    "default": "cse-405"
   }
 }
