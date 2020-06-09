@@ -10,10 +10,11 @@
     <!-- include only the Firebase features as you need -->
     <script defer src="/__/firebase/7.14.3/firebase-auth.js"></script>
     <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/7.14.3/firebase-analytics.js"></script> -->
+    <script defer src="/__/firebase/7.14.3/firebase-analytics.js"></script>
     <script defer src="/__/firebase/init.js"></script>
 
-    <script src="a.js"></script>
+    <script defer src="a.js"></script>
+    <script defer src="b.js"></script>
 
     <style media="screen">
       body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
@@ -40,7 +41,15 @@
     </div>
     <div id="a_logged_in" style="display: none">
       <input id="a_logout_btn" type="submit" value="Logout"/>
-      Secret Message!!!
+      <div id="b_view" style="display: none;">
+        <div id="b_view_note"></div>
+        <input id="b_view_edit_btn" type="submit" value="Edit Note"/>
+      </div>
+      <div id="b_edit" style="display: none;">
+        <textarea id="b_edit_note" rows="5" columns="40"></textarea>
+        <input id="b_edit_save_btn" type="submit" value="Save Changes"/>
+        <input id="b_edit_cancel_btn" type="submit" value="Cancel"/>
+      </div>
     </div>
     <p id="load">Firebase SDK Loading&hellip;</p>
 
